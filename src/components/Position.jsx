@@ -1,6 +1,5 @@
 import React, { useContext } from 'react' 
 import { 
-  Typography,
   Grid,
 } from '@material-ui/core'
 import { AuthContext } from './AuthContext'

@@ -22,24 +22,9 @@ const FormViaje = () => {
         name='pasajeros'
         inputRef={register}
       />
-      <Button type='submit'></Button>
-      
+      <Button type='submit'></Button>      
     </form>  
   )
 }
 
 export default FormViaje
-
-
-import React, { useContext, useState } from 'react'
-import { 
-  TextField,
-}  from '@material-ui/core'
-import { useForm } from 'react-hook-form'
-
-const FormChofer = () => {
-
-  
-}
-
-export default FormChofer

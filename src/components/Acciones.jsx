@@ -7,7 +7,14 @@ import {
 
 const Acciones = () => { 
 
-  const auth = useContext( AuthContext )[0]
+  const [ auth, controller] = useContext( AuthContext )
+  const terminarViaje = () => {
+    controller.setPosicion(auth.posicion)
+  }
+  const abrirModalComienzoViaje = () => {
+    
+  }
+
 
   return(
     <Grid container>
@@ -17,6 +24,7 @@ const Acciones = () => {
         size="large" 
         color="secondary"
         style={{fontSize: 50}}  
+        onClick={terminarViaje}
       >
         Llegué
       </Button>
@@ -25,7 +33,8 @@ const Acciones = () => {
         variant="contained" 
         size="large" 
         color="secondary"
-        style={{fontSize: 50}}  
+        style={{fontSize: 50}} 
+        onClick={abrirModalComienzoViaje} 
       >
         Voy
       </Button>

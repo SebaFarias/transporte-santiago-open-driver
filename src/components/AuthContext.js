@@ -14,17 +14,34 @@ export const AuthContextProvider = props => {
     ruta:{
       origen: 'hotel',
       destino:'club',
-    }
+    },
+    posicion: 'hotel',
   })
 
   const controller = {
     toggleEnRuta: () => {
         setAuth( prevState => {
-          return({
+          return{
             ...prevState,
             enRuta: !prevState.enRuta,
-          })
+          }
         })
+    },
+    setRuta: newRuta => {
+      setAuth( prevState => {
+        return {
+          ...prevState,
+          ruta: newRuta
+        }
+      })
+    },
+    setPosicion: lugar => {
+      setAuth( prevState => {
+        return{
+          ...prevState,
+          posicion: lugar,
+        }
+      })
     }
   }
 

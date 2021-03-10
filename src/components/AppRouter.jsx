@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import { AuthContext } from './AuthContext'
 import DriverView from './DriverView'
-import Login from './Login'
 
 const AppRouter = () => {
 
@@ -12,7 +11,7 @@ const AppRouter = () => {
     { auth.authState ? 
     <DriverView driver={auth.driver}/>
     :
-      <Login/>
+      null
     }
     </>
   )

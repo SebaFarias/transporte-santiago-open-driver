@@ -1,4 +1,4 @@
-import React, { useContext } from 'react' 
+import React from 'react' 
 import { makeStyles } from '@material-ui/core/styles'
 import { 
   AppBar,
@@ -7,21 +7,24 @@ import {
   Typography,
 } from '@material-ui/core'
 
-const Footer = () => { 
 
-  const useStyles = makeStyles( theme => ({
-    footerContainer: {
+const useStyles = makeStyles( theme => ({
+  root: {
       position: 'fixed',
       bottom: 0,
       left:0,
       right: 0,
     },
   }))
+  const Footer = () => { 
 
+    const classes = useStyles()
+  
   return(
-    <AppBar position='sticky'>
+    <AppBar position='sticky' >
     <Toolbar>
       <Grid xs={12} container>
+        {console.log(classes)}
         <Grid xs={10} item container>
           <Typography variant='h2'>
             Footer

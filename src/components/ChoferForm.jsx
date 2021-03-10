@@ -13,6 +13,7 @@ const ChoferForm = () => {
 
   return(
     <form onSubmit={ handleSubmit(onSubmit) }>
+      { console.log(handleSubmit, errors, submitting, setSubmitting) }
       <TextField
         id='filled-secondary'
         label='Nombre ( Ej: Freddy T. )'
