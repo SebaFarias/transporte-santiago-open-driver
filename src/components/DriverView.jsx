@@ -26,7 +26,6 @@ const DriverView = () => {
 
   const classes = useStyles()
   const auth = useContext( AuthContext )[0]
-  const lugar = 'hotel'
 
   return (
     <Paper>
@@ -43,7 +42,7 @@ const DriverView = () => {
           </Typography>
         </Grid>
         <Grid item xs={12} className={classes.item}>
-          <Position lugar={lugar}/>
+          <Position/>
         </Grid>
         <Grid item xs={12} className={classes.item}>
           <Acciones/>

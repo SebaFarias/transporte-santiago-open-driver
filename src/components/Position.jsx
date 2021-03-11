@@ -6,7 +6,7 @@ import { AuthContext } from './AuthContext'
 import LugarButton from './LugarButton'
 import opciones from './opciones'
 
-const Position = ({ lugar }) => { 
+const Position = () => { 
   const auth = useContext(AuthContext)[0]
 
   return(
@@ -30,7 +30,7 @@ const Position = ({ lugar }) => {
         </Grid>
       </>
       :
-      <LugarButton lugar={lugar}/>
+      <LugarButton lugar={auth.posicion}/>
     }
     </Grid>
   )

@@ -8,9 +8,10 @@ export const AuthContextProvider = props => {
     authState: true,
     remember: true,
     driver:{
-
+      nombre: 'Freddy T.',
+      auto: 'bici sin rueditas',
     },
-    enRuta: true,
+    enRuta: false,
     ruta:{
       origen: 'hotel',
       destino:'club',
@@ -19,27 +20,29 @@ export const AuthContextProvider = props => {
   })
 
   const controller = {
-    toggleEnRuta: () => {
-        setAuth( prevState => {
-          return{
-            ...prevState,
-            enRuta: !prevState.enRuta,
-          }
-        })
-    },
-    setRuta: newRuta => {
+    comenzarViaje: destino => {
       setAuth( prevState => {
+        const newRuta = {
+          origen: prevState.posicion,
+          destino: destino,
+        }
         return {
           ...prevState,
-          ruta: newRuta
+          ruta: newRuta,
+          enRuta: true,
         }
       })
     },
-    setPosicion: lugar => {
+    terminarViaje: () => {
       setAuth( prevState => {
-        return{
+        return {
           ...prevState,
-          posicion: lugar,
+          posicion: prevState.ruta.destino,
+          ruta:{
+            ...prevState.ruta,
+            origen: prevState.ruta.destino,
+          },
+          enRuta: false,
         }
       })
     }
