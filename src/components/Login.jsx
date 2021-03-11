@@ -20,9 +20,16 @@ const Login = () => {
 
   return (
     <Paper className={classes.root}>
-      <Grid container >
+      <Grid 
+        container
+        direction='column'
+        justify='center'
+        align='center'
+        >
+        <Grid item xs={12}>
+          <ChoferList/>
+        </Grid>
         <ChoferForm/>
-        <ChoferList/>
       </Grid>
     </Paper>
   )

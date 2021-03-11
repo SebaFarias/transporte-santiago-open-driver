@@ -5,11 +5,12 @@ export const AuthContext = createContext()
 export const AuthContextProvider = props => {
 
   const [ auth, setAuth ] = useState({
-    authState: true,
+    authState: false,
     remember: true,
     driver:{
       nombre: 'Freddy T.',
       auto: 'bici sin rueditas',
+      id:'',
     },
     enRuta: false,
     ruta:{
@@ -17,9 +18,28 @@ export const AuthContextProvider = props => {
       destino:'club',
     },
     posicion: 'hotel',
+    pasajeros: 0,
   })
 
   const controller = {
+    ingresar: driver => {
+      setAuth( prevState => {
+        return{
+          ...prevState,
+          authState: true,
+          driver: driver,
+        }
+      })
+    },
+    logOut: () => {
+      setAuth( prevState => {
+        return {
+          ...prevState,
+          authState:false,
+          driver: null,
+        }
+      })
+    },
     comenzarViaje: destino => {
       setAuth( prevState => {
         const newRuta = {
