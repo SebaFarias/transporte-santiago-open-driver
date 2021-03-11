@@ -40,6 +40,14 @@ export const AuthContextProvider = props => {
         }
       })
     },
+    setPasajeros: pasajeros => {
+      setAuth( prevState => {
+        return {
+          ...prevState,
+          pasajeros: pasajeros,
+        }
+      })
+    },
     comenzarViaje: destino => {
       setAuth( prevState => {
         const newRuta = {

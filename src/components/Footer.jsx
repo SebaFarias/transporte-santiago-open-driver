@@ -26,8 +26,8 @@ const useStyles = makeStyles( theme => ({
       <Grid xs={12} container>
         {console.log(classes)}
         <Grid xs={10} item container>
-          <Typography variant='h2'>
-            Footer
+          <Typography variant='subtitle1'>
+            Seba Farias | Marzo 2021
           </Typography>
         </Grid>
       </Grid>

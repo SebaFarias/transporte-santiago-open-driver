@@ -5,6 +5,7 @@ import {
   Grid,
   Modal,
   Paper,
+  Slider,
   Typography,
 } from '@material-ui/core';
 import { AuthContext } from './AuthContext'
@@ -33,6 +34,9 @@ const ModalViaje = ({ open, setOpen }) => {
   const destinos = opciones.lugares.filter( lugar => { return lugar !== auth.posicion } )
   const classes = useStyles();
 
+  const handleChange = ( e, value) => {
+    controller.setPasajeros(value)
+  }
   const handleClose = () => {
     setOpen(false);
   };
@@ -76,6 +80,19 @@ const ModalViaje = ({ open, setOpen }) => {
         </Grid>
 
       </Grid>
+      <Typography variant='h6'>
+            {`Pasajeros`}
+          </Typography>
+      <Slider
+        onChange={handleChange}
+        value={auth.pasajeros}
+        aria-labelledby="pasajeros-slider"
+        valueLabelDisplay="auto"
+        step={1}
+        marks
+        min={0}
+        max={5}
+      />
       <Grid item xs={12}>
         <Button 
           disabled={destino===''}
