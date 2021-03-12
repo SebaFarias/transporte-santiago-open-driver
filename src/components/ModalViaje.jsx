@@ -5,12 +5,12 @@ import {
   Grid,
   Modal,
   Paper,
-  Slider,
   Typography,
 } from '@material-ui/core';
 import { AuthContext } from './AuthContext'
 import opciones from './opciones'
 import LugarButton from './LugarButton';
+import PasajerosSlider from './PasajerosSlider';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,9 +34,6 @@ const ModalViaje = ({ open, setOpen }) => {
   const destinos = opciones.lugares.filter( lugar => { return lugar !== auth.posicion } )
   const classes = useStyles();
 
-  const handleChange = ( e, value) => {
-    controller.setPasajeros(value)
-  }
   const handleClose = () => {
     setOpen(false);
   };
@@ -52,6 +49,9 @@ const ModalViaje = ({ open, setOpen }) => {
         justify="center"
         alignItems="center"
       >
+        <Grid item xs={8}>
+        <PasajerosSlider/>
+      </Grid>
         <Grid xs={12} item>
           <Typography variant='h3' color='secondary'>
             Dónde
@@ -63,13 +63,6 @@ const ModalViaje = ({ open, setOpen }) => {
           container
           direction="row"
         >
-        {destino !== '' && 
-        <Grid xs={12} item>
-          <Typography variant='h3' color='secondary'>
-            {`Destino: ${destino}`}
-          </Typography>
-        </Grid>
-        }
         {destinos.map( lugar => {
           return(
             <Grid item xs={12/destinos.length} key={`opcion-${lugar}`}>
@@ -78,22 +71,14 @@ const ModalViaje = ({ open, setOpen }) => {
           )
         })}
         </Grid>
-
-      </Grid>
-      <Typography variant='h6'>
-            {`Pasajeros`}
+        {destino !== '' && 
+        <Grid xs={12} item>
+          <Typography variant='h3' color='secondary'>
+            {`Destino: ${destino}`}
           </Typography>
-      <Slider
-        onChange={handleChange}
-        value={auth.pasajeros}
-        aria-labelledby="pasajeros-slider"
-        valueLabelDisplay="auto"
-        step={1}
-        marks
-        min={0}
-        max={5}
-      />
-      <Grid item xs={12}>
+        </Grid>
+        }
+        <Grid item xs={12}>
         <Button 
           disabled={destino===''}
           variant="contained" 
@@ -104,6 +89,7 @@ const ModalViaje = ({ open, setOpen }) => {
         >
           Voy
         </Button>
+      </Grid>
       </Grid>
     </Paper>
   );

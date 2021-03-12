@@ -1,4 +1,4 @@
-import React, { useContext } from 'react' 
+import React, { useContext, useState } from 'react' 
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import {
   Table,
@@ -10,18 +10,6 @@ import {
   Paper,
 } from '@material-ui/core'
 import { AuthContext } from './AuthContext'
-
-const lista = [{
-  nombre: 'Freddy T.',
-  auto: 'Bici sin rueditas',
-  id:'adoansdaosdnd',
-},
-{
-  nombre: 'Eliseo S.',
-  auto:'McLaren F1',
-  id:'asfdasfasc',
-},
-]
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -56,11 +44,29 @@ const useStyles = makeStyles({
 const ChoferList = () => {
   
   const classes = useStyles();
+  const [ lista, setLista] = useState([])
   const controller = useContext( AuthContext )[1]
   const ingresar = driver => {
     controller.ingresar(driver)
   }
-
+  const fetchDrivers = async () => {
+    try{
+      const res = await fetch('http://localhost:8080/api/v1/driver/getDrivers')
+      const data = await res.json()
+      const normalized = await data.map( driver => {
+        return {
+          id:driver._id,
+          nombre:driver.name,
+          auto:driver.car,
+        }
+      })
+      setLista(normalized)
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+fetchDrivers()
   
   return (
     <StyledTableContainer component={Paper}  style={{ margin:'auto', }}>

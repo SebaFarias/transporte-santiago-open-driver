@@ -5,7 +5,6 @@ import {
   
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import ChoferForm from './ChoferForm'
 import ChoferList from './ChoferList'
 
 const useStyles = makeStyles( theme => ({
@@ -25,11 +24,11 @@ const Login = () => {
         direction='column'
         justify='center'
         align='center'
+        spacing={3}
         >
         <Grid item xs={12}>
           <ChoferList/>
         </Grid>
-        <ChoferForm/>
       </Grid>
     </Paper>
   )

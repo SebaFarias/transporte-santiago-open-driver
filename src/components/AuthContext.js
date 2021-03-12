@@ -1,25 +1,32 @@
 import React, { useState, createContext} from 'react'
 
+const API_DOMAIN = 'http://localhost:8080'
+const API_ROUTE =  '/api/v1'
+const VIAJES_ROUTES = '/viaje'
+
+const initialState = {
+  authState: false,
+  remember: true,
+  driver:{
+    nombre: 'Freddy T.',
+    auto: 'bici sin rueditas',
+    id:'',
+  },
+  enRuta: false,
+  ruta:{
+    id: '',
+    origen: 'hotel',
+    destino:'club',
+  },
+  posicion: 'hotel',
+  pasajeros: 0,
+}
+
 export const AuthContext = createContext()
 
 export const AuthContextProvider = props => {
 
-  const [ auth, setAuth ] = useState({
-    authState: false,
-    remember: true,
-    driver:{
-      nombre: 'Freddy T.',
-      auto: 'bici sin rueditas',
-      id:'',
-    },
-    enRuta: false,
-    ruta:{
-      origen: 'hotel',
-      destino:'club',
-    },
-    posicion: 'hotel',
-    pasajeros: 0,
-  })
+  const [ auth, setAuth ] = useState(initialState)
 
   const controller = {
     ingresar: driver => {
@@ -33,11 +40,7 @@ export const AuthContextProvider = props => {
     },
     logOut: () => {
       setAuth( prevState => {
-        return {
-          ...prevState,
-          authState:false,
-          driver: null,
-        }
+        return initialState
       })
     },
     setPasajeros: pasajeros => {
@@ -48,10 +51,20 @@ export const AuthContextProvider = props => {
         }
       })
     },
-    comenzarViaje: destino => {
+    comenzarViaje: async destino => {
       setAuth( prevState => {
+        const origen = prevState.posicion
+        const body = {
+          choferId: prevState.driver.id,
+          origen: origen,
+          destino: destino,
+          pasajeros: ''+prevState.pasajeros,   
+          inicio: new Date(),       
+        }
+        console.log(JSON.stringify(body))
+        iniciarViaje(body)
         const newRuta = {
-          origen: prevState.posicion,
+          origen: origen,
           destino: destino,
         }
         return {
@@ -61,18 +74,89 @@ export const AuthContextProvider = props => {
         }
       })
     },
-    terminarViaje: () => {
+    terminarViaje: async () => {
       setAuth( prevState => {
+        const body = {
+          rutaId: prevState.ruta.id,
+          driver: prevState.driver.id,
+          fin: new Date(),
+          origen: prevState.ruta.origen,
+          destino: prevState.ruta.destino,
+          pasajeros:prevState.pasajeros,
+        }
+        console.log(JSON.stringify(body))
+        cerrarViaje(body)
+        const newRuta = {
+          origen: prevState.ruta.destino,
+          destino: '',
+        }
         return {
           ...prevState,
           posicion: prevState.ruta.destino,
-          ruta:{
-            ...prevState.ruta,
-            origen: prevState.ruta.destino,
-          },
+          destino:'',
+          ruta: newRuta,
           enRuta: false,
         }
       })
+    },
+    setRutaId: newId => {
+      setAuth( prevState => {
+        return{
+          ...prevState,
+          ruta: {
+            ...prevState.ruta,
+            id: newId,
+          }
+        }
+      })
+    },
+  }
+  const iniciarViaje = async viaje => {
+      try{
+        const res = await fetch(`${API_DOMAIN}${API_ROUTE}${VIAJES_ROUTES}/comenzarViaje`, {
+          method: 'PUT', 
+          body: JSON.stringify(viaje),
+          headers:{
+            'Content-Type': 'application/json',
+          }
+        })
+        const data = await res.json()
+        setAuth( prevState => {
+          return{
+            ...prevState,
+            ruta:{
+              ...prevState.ruta,
+              id: data._id,
+            }
+          }
+        })
+      }
+      catch(err){
+        console.log(err)
+      }
+  }
+  const cerrarViaje = async viaje => {
+    try{
+      const res = await fetch(`${API_DOMAIN}${API_ROUTE}${VIAJES_ROUTES}/terminarViaje/${viaje.rutaId}`, {
+        method: 'POST', 
+        body: JSON.stringify(viaje),
+        headers:{
+          'Content-Type': 'application/json'
+        }
+      })
+      const data = await res.json()
+      setAuth( prevState => {
+        return{
+          ...prevState,
+          ruta:{
+            ...prevState.ruta,
+            id: data._id,
+          }
+        }
+      })
+    }
+    catch(err){
+      console.log(err)
     }
   }
 
