@@ -51,6 +51,36 @@ export const AuthContextProvider = props => {
         }
       })
     },
+    setOrigen: newOrigen => {
+      setAuth( prevState => {
+        return {
+          ...prevState,
+          ruta: {
+            ...prevState.ruta,
+            origen: newOrigen,
+          }
+        }
+      })
+    },
+    setDestino: newDestino => {
+      setAuth( prevState => {
+        return {
+          ...prevState,
+          ruta: {
+            ...prevState.ruta,
+            destino: newDestino,
+          }
+        }
+      })
+    },
+    setPosicion: newPosicion => {
+      setAuth( prevState => {
+        return {
+          ...prevState,
+          posicion: newPosicion,
+        }
+      })
+    },
     comenzarViaje: async destino => {
       setAuth( prevState => {
         const origen = prevState.posicion
@@ -61,7 +91,6 @@ export const AuthContextProvider = props => {
           pasajeros: ''+prevState.pasajeros,   
           inicio: new Date(),       
         }
-        console.log(JSON.stringify(body))
         iniciarViaje(body)
         const newRuta = {
           origen: origen,
@@ -84,7 +113,6 @@ export const AuthContextProvider = props => {
           destino: prevState.ruta.destino,
           pasajeros:prevState.pasajeros,
         }
-        console.log(JSON.stringify(body))
         cerrarViaje(body)
         const newRuta = {
           origen: prevState.ruta.destino,
@@ -96,6 +124,7 @@ export const AuthContextProvider = props => {
           destino:'',
           ruta: newRuta,
           enRuta: false,
+          pasajeros:0,
         }
       })
     },
@@ -137,23 +166,20 @@ export const AuthContextProvider = props => {
   }
   const cerrarViaje = async viaje => {
     try{
-      const res = await fetch(`${API_DOMAIN}${API_ROUTE}${VIAJES_ROUTES}/terminarViaje/${viaje.rutaId}`, {
+      const url =`${API_DOMAIN}${API_ROUTE}${VIAJES_ROUTES}/terminarViaje/${viaje.rutaId}`
+      const res = await fetch(url, {
         method: 'POST', 
+        mode: 'cors',
+        cache: 'no-cache',
         body: JSON.stringify(viaje),
         headers:{
+          'Accept': 'application/json',
           'Content-Type': 'application/json'
-        }
+        },
+        redirect: "follow",
+        referrerPolicy: 'no-referrer',
       })
-      const data = await res.json()
-      setAuth( prevState => {
-        return{
-          ...prevState,
-          ruta:{
-            ...prevState.ruta,
-            id: data._id,
-          }
-        }
-      })
+      console.log(res)
     }
     catch(err){
       console.log(err)
