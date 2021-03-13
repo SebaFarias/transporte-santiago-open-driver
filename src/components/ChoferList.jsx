@@ -51,7 +51,7 @@ const ChoferList = () => {
   }
   const fetchDrivers = async () => {
     try{
-      const res = await fetch('http://localhost:8080/api/v1/driver/getDrivers')
+      const res = await fetch(`https://transporte-santiago-open.herokuapp.com/drivers`)
       const data = await res.json()
       const normalized = await data.map( driver => {
         return {

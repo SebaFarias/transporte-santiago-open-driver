@@ -1,8 +1,8 @@
 import React, { useState, createContext} from 'react'
 
-const API_DOMAIN = 'http://localhost:8080'
-const API_ROUTE =  '/api/v1'
-const VIAJES_ROUTES = '/viaje'
+
+const API_DOMAIN = 'https://transporte-santiago-open.herokuapp.com'
+const VIAJES_ROUTES = '/viajes'
 
 const initialState = {
   authState: false,
@@ -86,6 +86,7 @@ export const AuthContextProvider = props => {
         const origen = prevState.posicion
         const body = {
           choferId: prevState.driver.id,
+          terminado:false,
           origen: origen,
           destino: destino,
           pasajeros: ''+prevState.pasajeros,   
@@ -112,6 +113,7 @@ export const AuthContextProvider = props => {
           origen: prevState.ruta.origen,
           destino: prevState.ruta.destino,
           pasajeros:prevState.pasajeros,
+          terminado:true,
         }
         cerrarViaje(body)
         const newRuta = {
@@ -142,8 +144,8 @@ export const AuthContextProvider = props => {
   }
   const iniciarViaje = async viaje => {
       try{
-        const res = await fetch(`${API_DOMAIN}${API_ROUTE}${VIAJES_ROUTES}/comenzarViaje`, {
-          method: 'PUT', 
+        const res = await fetch(`${API_DOMAIN}${VIAJES_ROUTES}`, {
+          method: 'POST', 
           body: JSON.stringify(viaje),
           headers:{
             'Content-Type': 'application/json',
@@ -166,9 +168,9 @@ export const AuthContextProvider = props => {
   }
   const cerrarViaje = async viaje => {
     try{
-      const url =`${API_DOMAIN}${API_ROUTE}${VIAJES_ROUTES}/terminarViaje/${viaje.rutaId}`
+      const url =`${API_DOMAIN}${VIAJES_ROUTES}/${viaje.rutaId}`
       const res = await fetch(url, {
-        method: 'POST', 
+        method: 'PUT', 
         mode: 'cors',
         cache: 'no-cache',
         body: JSON.stringify(viaje),
