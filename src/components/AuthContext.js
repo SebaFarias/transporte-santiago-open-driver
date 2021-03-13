@@ -85,7 +85,7 @@ export const AuthContextProvider = props => {
       setAuth( prevState => {
         const origen = prevState.posicion
         const body = {
-          choferId: prevState.driver.id,
+          driver: prevState.driver.id,
           terminado:false,
           origen: origen,
           destino: destino,
@@ -113,7 +113,7 @@ export const AuthContextProvider = props => {
           origen: prevState.ruta.origen,
           destino: prevState.ruta.destino,
           pasajeros:prevState.pasajeros,
-          terminado:true,
+          terminado: true,
         }
         cerrarViaje(body)
         const newRuta = {
